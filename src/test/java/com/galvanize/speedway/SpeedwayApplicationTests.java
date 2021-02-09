@@ -14,7 +14,7 @@ class SpeedwayApplicationTests {
 
 	@Test
 	void dummyTest(){
-		assertTrue(true);
+		assertTrue(false);
 	}
 
 }
