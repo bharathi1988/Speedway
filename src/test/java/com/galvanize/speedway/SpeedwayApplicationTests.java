@@ -12,9 +12,4 @@ class SpeedwayApplicationTests {
 	void contextLoads() {
 	}
 
-	@Test
-	void dummyTest(){
-		assertTrue(false);
-	}
-
 }
