@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -25,14 +26,16 @@ public class SpeedwayIntegrationTest {
     private ObjectMapper mapper;
 
     @Test
-    public void addRaceCarsTest() throws Exception{
+    public void addRaceCarsTest() throws Exception {
 
         Racecar racecar = new Racecar();
         racecar.setName("Ferrari");
 
         mockMvc.perform(post("/api/v1/racecars")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(racecar)))
-                .andExpect(status().isCreated());
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(racecar)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.name").value(racecar.getName()));
     }
 }
