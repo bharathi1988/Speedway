@@ -1,6 +1,8 @@
 package com.galvanize.speedway.service;
 
+import com.galvanize.speedway.entities.Driver;
 import com.galvanize.speedway.entities.Racecar;
+import com.galvanize.speedway.repository.DriverRepository;
 import com.galvanize.speedway.repository.SpeedCarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class SpeedCarService {
     @Autowired
     SpeedCarRepository speedCarRepository;
 
+    @Autowired
+    DriverRepository driverRepository;
+
     public Racecar addRaceCar(Racecar racecar) {
         return speedCarRepository.save(racecar);
     }
@@ -23,5 +28,9 @@ public class SpeedCarService {
 
     public List<Racecar> findAllCars() {
         return new ArrayList<Racecar>(speedCarRepository.findAll());
+    }
+
+    public Driver addDriver(Driver driver) {
+        return driverRepository.save(driver);
     }
 }

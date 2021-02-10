@@ -1,8 +1,10 @@
 package com.galvanize.speedway.IntegrationTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.galvanize.speedway.entities.Driver;
 import com.galvanize.speedway.entities.Racecar;
 import com.galvanize.speedway.service.SpeedCarService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -30,6 +32,24 @@ public class SpeedwayIntegrationTest {
     @Autowired
     private SpeedCarService speedCarService;
 
+    Long driverId;
+
+    Driver driver;
+
+    @BeforeEach
+    public void setup(){
+        driver = Driver.builder()
+                .firstName("Micheal")
+                .lastName("Schumaker")
+                .nickName("Mike")
+                .age(40)
+                .wins(100)
+                .losses(4)
+                .build();
+
+        driverId = speedCarService.addDriver(driver).getId();
+    }
+
     @Test
     public void addRaceCarsTest() throws Exception {
 
@@ -38,7 +58,7 @@ public class SpeedwayIntegrationTest {
                 .model("Model123")
                 .year(2020)
                 .topSpeed(250)
-                .owner(1)
+                .owner(driverId)
                 .build();
 
         mockMvc.perform(post("/api/v1/racecars")
@@ -61,7 +81,7 @@ public class SpeedwayIntegrationTest {
                 .model("Model123")
                 .year(2020)
                 .topSpeed(250)
-                .owner(1)
+                .owner(driverId)
                 .build();
 
         Racecar expectedCar  = speedCarService.addRaceCar(racecar);
@@ -84,7 +104,7 @@ public class SpeedwayIntegrationTest {
                 .model("Model123")
                 .year(2020)
                 .topSpeed(250)
-                .owner(1)
+                .owner(driverId)
                 .build();
 
         Racecar racecar2 = Racecar.builder()
@@ -92,7 +112,7 @@ public class SpeedwayIntegrationTest {
                 .model("Model1")
                 .year(2021)
                 .topSpeed(275)
-                .owner(1)
+                .owner(driverId)
                 .build();
         Racecar expectedCar1  = speedCarService.addRaceCar(racecar);
         speedCarService.addRaceCar(racecar2);
@@ -106,5 +126,22 @@ public class SpeedwayIntegrationTest {
                 .andExpect(jsonPath("$.[0].year").value(expectedCar1.getYear()))
                 .andExpect(jsonPath("$.[0].topSpeed").value(expectedCar1.getTopSpeed()))
                 .andExpect(jsonPath("$.[0].owner").value(expectedCar1.getOwner()));
+    }
+
+    @Test
+    public void addDriverTest() throws Exception{
+
+
+        mockMvc.perform(post("/api/v1/drivers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(driver)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.firstName").value(driver.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(driver.getLastName()))
+                .andExpect(jsonPath("$.nickName").value(driver.getNickName()))
+                .andExpect(jsonPath("$.age").value(driver.getAge()))
+                .andExpect(jsonPath("$.wins").value(driver.getWins()))
+                .andExpect(jsonPath("$.losses").value(driver.getLosses()));
     }
 }
