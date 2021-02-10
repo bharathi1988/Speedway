@@ -28,14 +28,24 @@ public class SpeedwayIntegrationTest {
     @Test
     public void addRaceCarsTest() throws Exception {
 
-        Racecar racecar = new Racecar();
-        racecar.setName("Ferrari");
+        Racecar racecar = Racecar.builder()
+                .nickName("Ferrari")
+                .model("Model123")
+                .year(2020)
+                .topSpeed(250)
+                .owner(1)
+                .build();
+        racecar.setNickName("Ferrari");
 
         mockMvc.perform(post("/api/v1/racecars")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(racecar)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.name").value(racecar.getName()));
+                .andExpect(jsonPath("$.nickName").value(racecar.getNickName()))
+                .andExpect(jsonPath("$.model").value(racecar.getModel()))
+                .andExpect(jsonPath("$.year").value(racecar.getYear()))
+                .andExpect(jsonPath("$.topSpeed").value(racecar.getTopSpeed()))
+                .andExpect(jsonPath("$.owner").value(racecar.getOwner()));
     }
 }
