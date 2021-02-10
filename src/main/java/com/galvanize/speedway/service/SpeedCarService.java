@@ -13,4 +13,8 @@ public class SpeedCarService {
     public Racecar addRaceCar(Racecar racecar) {
         return speedCarRepository.save(racecar);
     }
+
+    public Racecar findById(int id) {
+        return speedCarRepository.findById(id).get();
+    }
 }
