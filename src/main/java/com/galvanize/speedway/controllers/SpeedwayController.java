@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class SpeedwayController {
     @Autowired
@@ -20,6 +22,11 @@ public class SpeedwayController {
     @GetMapping("/api/v1/racecars/{carId}")
     public Racecar findById(@PathVariable("carId") int id) {
         return speedCarService.findById(id);
+    }
+
+    @GetMapping("/api/v1/racecars")
+    public List<Racecar> findAllCars() {
+        return speedCarService.findAllCars();
     }
 
 }

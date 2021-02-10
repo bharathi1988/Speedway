@@ -52,6 +52,7 @@ public class SpeedwayIntegrationTest {
                 .andExpect(jsonPath("$.topSpeed").value(racecar.getTopSpeed()))
                 .andExpect(jsonPath("$.owner").value(racecar.getOwner()));
     }
+
     @Test
     public void testFindByCarId() throws Exception {
 
@@ -73,5 +74,37 @@ public class SpeedwayIntegrationTest {
                 .andExpect(jsonPath("$.year").value(expectedCar.getYear()))
                 .andExpect(jsonPath("$.topSpeed").value(expectedCar.getTopSpeed()))
                 .andExpect(jsonPath("$.owner").value(expectedCar.getOwner()));
+    }
+
+    @Test
+    public void testFindAllCars() throws Exception {
+
+        Racecar racecar = Racecar.builder()
+                .nickName("Ferrari")
+                .model("Model123")
+                .year(2020)
+                .topSpeed(250)
+                .owner(1)
+                .build();
+
+        Racecar racecar2 = Racecar.builder()
+                .nickName("Alpine")
+                .model("Model1")
+                .year(2021)
+                .topSpeed(275)
+                .owner(1)
+                .build();
+        Racecar expectedCar1  = speedCarService.addRaceCar(racecar);
+        speedCarService.addRaceCar(racecar2);
+
+        mockMvc.perform(get("/api/v1/racecars"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$.[0].id").value(expectedCar1.getId()))
+                .andExpect(jsonPath("$.[0].nickName").value(expectedCar1.getNickName()))
+                .andExpect(jsonPath("$.[0].model").value(expectedCar1.getModel()))
+                .andExpect(jsonPath("$.[0].year").value(expectedCar1.getYear()))
+                .andExpect(jsonPath("$.[0].topSpeed").value(expectedCar1.getTopSpeed()))
+                .andExpect(jsonPath("$.[0].owner").value(expectedCar1.getOwner()));
     }
 }
