@@ -190,6 +190,14 @@ public class SpeedwayIntegrationTest {
         mockMvc.perform(post("/api/v1/race")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(race)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value(race.getName()))
+                .andExpect(jsonPath("$.category").value(race.getCategory()))
+                .andExpect(jsonPath("$.date").value(race.getDate().toString()))
+                .andExpect(jsonPath("$.bestTime").value(race.getBestTime()))
+                .andExpect(jsonPath("$.winner").value(race.getWinner()))
+                .andExpect(jsonPath("$.participantsList.length()").value(race.getParticipantsList().size()))
+                .andExpect(jsonPath("$.id").exists())
+                ;
     }
 }

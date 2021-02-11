@@ -52,6 +52,6 @@ public class SpeedwayController {
     @PostMapping("api/v1/race")
     @ResponseStatus(HttpStatus.CREATED)
     public Race addRace(@RequestBody Race race){
-        return race;
+        return speedCarService.addRace(race);
     }
 }
