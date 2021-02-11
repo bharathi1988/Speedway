@@ -27,7 +27,7 @@ public class SpeedCarService {
     }
 
     public List<Racecar> findAllCars() {
-        return new ArrayList<Racecar>(speedCarRepository.findAll());
+        return new ArrayList<>(speedCarRepository.findAll());
     }
 
     public Driver addDriver(Driver driver) {
