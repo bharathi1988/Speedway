@@ -33,4 +33,8 @@ public class SpeedCarService {
     public Driver addDriver(Driver driver) {
         return driverRepository.save(driver);
     }
+
+    public Driver findById(Long id) {
+        return driverRepository.findById(id).get();
+    }
 }

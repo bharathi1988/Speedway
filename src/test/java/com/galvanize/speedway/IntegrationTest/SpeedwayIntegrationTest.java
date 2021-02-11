@@ -130,8 +130,6 @@ public class SpeedwayIntegrationTest {
 
     @Test
     public void addDriverTest() throws Exception{
-
-
         mockMvc.perform(post("/api/v1/drivers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(driver)))
@@ -143,5 +141,18 @@ public class SpeedwayIntegrationTest {
                 .andExpect(jsonPath("$.age").value(driver.getAge()))
                 .andExpect(jsonPath("$.wins").value(driver.getWins()))
                 .andExpect(jsonPath("$.losses").value(driver.getLosses()));
+    }
+
+    @Test
+    public void getDriverByIdTest() throws Exception{
+        mockMvc.perform(get("/api/v1/drivers/{driverId}", driverId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(driverId))
+                .andExpect(jsonPath("$.firstName").value(driver.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(driver.getLastName()))
+                .andExpect(jsonPath("$.nickName").value(driver.getNickName()))
+                .andExpect(jsonPath("$.age").value(driver.getAge()))
+                .andExpect(jsonPath("$.wins").value(driver.getWins()))
+                .andExpect(jsonPath("$.losses").value(driver.getLosses()));;
     }
 }

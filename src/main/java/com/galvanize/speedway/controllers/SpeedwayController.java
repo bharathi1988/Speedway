@@ -38,4 +38,9 @@ public class SpeedwayController {
         return speedCarService.addDriver(driver);
     }
 
+    @GetMapping("/api/v1/drivers/{driverId}")
+    public Driver findById(@PathVariable("driverId") Long id) {
+        return speedCarService.findById(id);
+    }
+
 }
