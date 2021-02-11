@@ -43,4 +43,9 @@ public class SpeedwayController {
         return speedCarService.findById(id);
     }
 
+    @GetMapping("/api/v1/drivers")
+    public List<Driver> getAllDrivers(){
+        return speedCarService.getAllDrivers();
+    }
+
 }

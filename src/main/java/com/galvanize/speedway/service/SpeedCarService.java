@@ -37,4 +37,8 @@ public class SpeedCarService {
     public Driver findById(Long id) {
         return driverRepository.findById(id).get();
     }
+
+    public List<Driver> getAllDrivers(){
+        return driverRepository.findAll();
+    }
 }

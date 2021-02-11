@@ -153,6 +153,20 @@ public class SpeedwayIntegrationTest {
                 .andExpect(jsonPath("$.nickName").value(driver.getNickName()))
                 .andExpect(jsonPath("$.age").value(driver.getAge()))
                 .andExpect(jsonPath("$.wins").value(driver.getWins()))
-                .andExpect(jsonPath("$.losses").value(driver.getLosses()));;
+                .andExpect(jsonPath("$.losses").value(driver.getLosses()));
+    }
+
+    @Test
+    public void getAllDriversTest() throws Exception{
+        mockMvc.perform(get("/api/v1/drivers"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].id").value(1))
+                .andExpect(jsonPath("$.[0].firstName").value(driver.getFirstName()))
+                .andExpect(jsonPath("$.[0].lastName").value(driver.getLastName()))
+                .andExpect(jsonPath("$.[0].nickName").value(driver.getNickName()))
+                .andExpect(jsonPath("$.[0].age").value(driver.getAge()))
+                .andExpect(jsonPath("$.[0].wins").value(driver.getWins()))
+                .andExpect(jsonPath("$.[0].losses").value(driver.getLosses()));
+
     }
 }
