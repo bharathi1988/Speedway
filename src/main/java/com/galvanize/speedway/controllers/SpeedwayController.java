@@ -1,6 +1,7 @@
 package com.galvanize.speedway.controllers;
 
 import com.galvanize.speedway.entities.Driver;
+import com.galvanize.speedway.entities.Race;
 import com.galvanize.speedway.entities.Racecar;
 import com.galvanize.speedway.service.SpeedCarService;
 import io.swagger.annotations.Api;
@@ -48,4 +49,9 @@ public class SpeedwayController {
         return speedCarService.getAllDrivers();
     }
 
+    @PostMapping("api/v1/race")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Race addRace(@RequestBody Race race){
+        return race;
+    }
 }

@@ -2,8 +2,10 @@ package com.galvanize.speedway.IntegrationTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.galvanize.speedway.entities.Driver;
+import com.galvanize.speedway.entities.Race;
 import com.galvanize.speedway.entities.Racecar;
 import com.galvanize.speedway.service.SpeedCarService;
+import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
+import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -168,5 +173,23 @@ public class SpeedwayIntegrationTest {
                 .andExpect(jsonPath("$.[0].wins").value(driver.getWins()))
                 .andExpect(jsonPath("$.[0].losses").value(driver.getLosses()));
 
+    }
+
+    @Test
+    public void addRaceTest() throws Exception {
+
+        Race race = Race.builder()
+                .name("Grand Prix III")
+                .category("Stock Car")
+                .date(LocalDate.now())
+                .bestTime("03:36:78")
+                .winner(driver)
+                .participantsList(Arrays.asList(driver))
+                .build();
+
+        mockMvc.perform(post("/api/v1/race")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(race)))
+                .andExpect(status().isCreated());
     }
 }
