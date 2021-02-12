@@ -54,4 +54,8 @@ public class SpeedCarService {
     public Race findByRaceId(Long id) {
         return raceRepository.findById(id).get();
     }
+
+    public List<Race> getAllRace() {
+        return raceRepository.findAll();
+    }
 }

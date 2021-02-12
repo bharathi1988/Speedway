@@ -224,4 +224,28 @@ public class SpeedwayIntegrationTest {
                 .andExpect(jsonPath("$.winner.id").value(race.getWinner().getId()))
                 .andExpect(jsonPath("$.participantsList.length()").value(race.getParticipantsList().size()));
     }
+
+    @Test
+    public void getAllRaceTest() throws Exception{
+        Race race = Race.builder()
+                .name("Grand Prix III")
+                .category("Stock Car")
+                .date(LocalDate.now())
+                .bestTime("03:36:78")
+                .winner(driver)
+                .participantsList(Arrays.asList(driver))
+                .build();
+
+        Race expectedCar = speedCarService.addRace(race);
+
+        mockMvc.perform(get("/api/v1/race"))
+                .andExpect(status().isOk())
+                //.andExpect(jsonPath("$.[0].id").value(1))
+                .andExpect(jsonPath("$.[0].name").value(race.getName()))
+                .andExpect(jsonPath("$.[0].category").value(race.getCategory()))
+                .andExpect(jsonPath("$.[0].date").value(race.getDate().toString()))
+                .andExpect(jsonPath("$.[0].bestTime").value(race.getBestTime()))
+                //.andExpect(jsonPath("$.[0].winner.length()").value(1))
+                .andExpect(jsonPath("$.[0].participantsList.length()").value(race.getParticipantsList().size()));
+    }
 }

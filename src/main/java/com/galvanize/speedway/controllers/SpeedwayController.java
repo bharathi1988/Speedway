@@ -59,4 +59,9 @@ public class SpeedwayController {
     public Race findByRaceId(@PathVariable("raceId") Long id){
         return speedCarService.findByRaceId(id);
     }
+
+    @GetMapping("api/v1/race")
+    public List<Race> getAllRace(){
+        return speedCarService.getAllRace();
+    }
 }
