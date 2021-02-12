@@ -25,7 +25,7 @@ public class Race {
     private String category;
     private LocalDate date;
     private String bestTime;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "id")
     private Driver winner;
 

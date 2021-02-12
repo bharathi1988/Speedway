@@ -200,4 +200,28 @@ public class SpeedwayIntegrationTest {
                 .andExpect(jsonPath("$.id").exists())
                 ;
     }
+
+    @Test
+    public void getRaceByIdTest() throws Exception{
+        Race race = Race.builder()
+                .name("Grand Prix III")
+                .category("Stock Car")
+                .date(LocalDate.now())
+                .bestTime("03:36:78")
+                .winner(driver)
+                .participantsList(Arrays.asList(driver))
+                .build();
+
+        Race expectedCar = speedCarService.addRace(race);
+
+        mockMvc.perform(get("/api/v1/race/{raceId}", expectedCar.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(expectedCar.getId()))
+                .andExpect(jsonPath("$.name").value(race.getName()))
+                .andExpect(jsonPath("$.category").value(race.getCategory()))
+                .andExpect(jsonPath("$.date").value(race.getDate().toString()))
+                .andExpect(jsonPath("$.bestTime").value(race.getBestTime()))
+                .andExpect(jsonPath("$.winner.id").value(race.getWinner().getId()))
+                .andExpect(jsonPath("$.participantsList.length()").value(race.getParticipantsList().size()));
+    }
 }

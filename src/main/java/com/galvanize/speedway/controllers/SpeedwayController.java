@@ -54,4 +54,9 @@ public class SpeedwayController {
     public Race addRace(@RequestBody Race race){
         return speedCarService.addRace(race);
     }
+
+    @GetMapping("api/v1/race/{raceId}")
+    public Race findByRaceId(@PathVariable("raceId") Long id){
+        return speedCarService.findByRaceId(id);
+    }
 }

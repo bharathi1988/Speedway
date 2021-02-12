@@ -50,4 +50,8 @@ public class SpeedCarService {
     public Race addRace(Race race) {
         return raceRepository.save(race);
     }
+
+    public Race findByRaceId(Long id) {
+        return raceRepository.findById(id).get();
+    }
 }
